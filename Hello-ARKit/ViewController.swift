@@ -36,6 +36,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         // Add box
         let box = SCNBox(width: 0.2, height: 0.2, length: 0.2, chamferRadius: 0.0)
         let material = SCNMaterial()
+        material.name = "main";
         material.diffuse.contents = UIImage(named: "brick.jpg")
         let node = SCNNode(geometry: box)
         node.geometry?.materials = [material]
@@ -53,17 +54,41 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         scene.rootNode.addChildNode(sphereNode)
         
         // Add text
-        /*let textGeometry = SCNText(string: "Hello World", extrusionDepth: 1.0)
-        textGeometry.firstMaterial?.diffuse.contents = UIColor.black
-        
+        let textGeometry = SCNText(string: "Hello World", extrusionDepth: 1.0)
+        textGeometry.firstMaterial?.diffuse.contents = UIColor.red
         let textNode = SCNNode(geometry: textGeometry)
-        textNode.position = SCNVector3(0, 0.1, -0.5)
-        textNode.scale = SCNVector3(0.02, 0.02, 0.02);
+        textNode.position = SCNVector3(0, 0.5, -2)
         
-        sc ene.rootNode.addChildNode(textNode)*/
+        // Center in the middle
+        let (min, max) = textNode.boundingBox
+        let dx = min.x + 0.5 * (max.x - min.x)
+        let dy = min.y + 0.5 * (max.y - min.y)
+        let dz = min.z + 0.5 * (max.z - min.z)
+        textNode.pivot = SCNMatrix4MakeTranslation(dx, dy, dz)
         
+        textNode.scale = SCNVector3(0.01, 0.01, 0.01);
+        scene.rootNode.addChildNode(textNode)
+        
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(recognizedTap))
+        self.sceneView.addGestureRecognizer(tapGestureRecognizer)
 
     }
+    
+    @objc func recognizedTap(recognizer:UIGestureRecognizer) {
+        let sceneView = recognizer.view as! SCNView
+        let touchLocation = recognizer.location(in: sceneView)
+        let hitResults = sceneView.hitTest(touchLocation, options: [:])
+        
+        guard let node = hitResults.first?.node else {
+            return;
+        }
+        let material = node.geometry?.material(named: "main");
+        material?.diffuse.contents = UIColor.random();
+
+    }
+    
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
