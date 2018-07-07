@@ -33,7 +33,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         // Set the scene to the view
         sceneView.scene = scene
         
-        let box = SCNBox(width: 0.2, height: 0.2, length: 0.2, chamferRadius: 0.0)
+        // Add box
+        /*let box = SCNBox(width: 0.2, height: 0.2, length: 0.2, chamferRadius: 0.0)
         
         let material = SCNMaterial()
         material.diffuse.contents = UIColor.red
@@ -42,8 +43,20 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         node.geometry = box
         node.geometry?.materials = [material]
         node.position = SCNVector3(0, 0.1, -0.5)
+ 
+        scene.rootNode.addChildNode(node);*/
         
-        scene.rootNode.addChildNode(node);
+        // Add text
+        let textGeometry = SCNText(string: "Hello World", extrusionDepth: 1.0)
+        textGeometry.firstMaterial?.diffuse.contents = UIColor.black
+        
+        let textNode = SCNNode(geometry: textGeometry)
+        textNode.position = SCNVector3(0, 0.1, -0.5)
+        textNode.scale = SCNVector3(0.02, 0.02, 0.02);
+        
+        scene.rootNode.addChildNode(textNode)
+        
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
