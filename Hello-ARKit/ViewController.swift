@@ -34,27 +34,33 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         sceneView.scene = scene
         
         // Add box
-        /*let box = SCNBox(width: 0.2, height: 0.2, length: 0.2, chamferRadius: 0.0)
-        
+        let box = SCNBox(width: 0.2, height: 0.2, length: 0.2, chamferRadius: 0.0)
         let material = SCNMaterial()
-        material.diffuse.contents = UIColor.red
-        
-        let node = SCNNode()
-        node.geometry = box
+        material.diffuse.contents = UIImage(named: "brick.jpg")
+        let node = SCNNode(geometry: box)
         node.geometry?.materials = [material]
-        node.position = SCNVector3(0, 0.1, -0.5)
- 
-        scene.rootNode.addChildNode(node);*/
+        node.position = SCNVector3(-0.2, 0, -1)
+        
+        scene.rootNode.addChildNode(node);
+        
+        let sphere = SCNSphere(radius: 0.1)
+        let sphereMaterial = SCNMaterial()
+        sphereMaterial.diffuse.contents = UIImage(named: "earth.jpg")
+        let sphereNode = SCNNode(geometry: sphere);
+        sphereNode.geometry?.materials = [sphereMaterial]
+        sphereNode.position = SCNVector3(0.2, 0, -1)
+        
+        scene.rootNode.addChildNode(sphereNode)
         
         // Add text
-        let textGeometry = SCNText(string: "Hello World", extrusionDepth: 1.0)
+        /*let textGeometry = SCNText(string: "Hello World", extrusionDepth: 1.0)
         textGeometry.firstMaterial?.diffuse.contents = UIColor.black
         
         let textNode = SCNNode(geometry: textGeometry)
         textNode.position = SCNVector3(0, 0.1, -0.5)
         textNode.scale = SCNVector3(0.02, 0.02, 0.02);
         
-        scene.rootNode.addChildNode(textNode)
+        sc ene.rootNode.addChildNode(textNode)*/
         
 
     }
