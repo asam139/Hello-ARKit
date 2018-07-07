@@ -12,10 +12,13 @@ import ARKit
 
 class ViewController: UIViewController, ARSCNViewDelegate {
 
-    @IBOutlet var sceneView: ARSCNView!
+    var sceneView: ARSCNView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        sceneView = ARSCNView(frame: self.view.bounds);
+        self.view.addSubview(sceneView);
         
         // Set the view's delegate
         sceneView.delegate = self
@@ -24,10 +27,23 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         sceneView.showsStatistics = true
         
         // Create a new scene
-        let scene = SCNScene(named: "art.scnassets/ship.scn")!
+        //let scene = SCNScene(named: "art.scnassets/ship.scn")!
+        let scene = SCNScene();
         
         // Set the scene to the view
         sceneView.scene = scene
+        
+        let box = SCNBox(width: 0.2, height: 0.2, length: 0.2, chamferRadius: 0.0)
+        
+        let material = SCNMaterial()
+        material.diffuse.contents = UIColor.red
+        
+        let node = SCNNode()
+        node.geometry = box
+        node.geometry?.materials = [material]
+        node.position = SCNVector3(0, 0.1, -0.5)
+        
+        scene.rootNode.addChildNode(node);
     }
     
     override func viewWillAppear(_ animated: Bool) {
